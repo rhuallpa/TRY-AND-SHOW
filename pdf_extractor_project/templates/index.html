@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Datos Extraídos del PDF</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f0f4f7;
+            color: #333;
+        }
+        .navbar {
+            background-color: #004085;
+        }
+        .navbar-brand {
+            color: #ffffff;
+            font-weight: bold;
+        }
+        .navbar-brand:hover {
+            color: #cccccc;
+        }
+        h2, h3 {
+            color: #004085;
+            font-weight: 700;
+        }
+        .container {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        hr {
+            border-top: 2px solid #004085;
+        }
+        .btn-primary {
+            background-color: #0069d9;
+            border-color: #0062cc;
+        }
+        .btn-secondary {
+            background-color: #17a2b8;
+            border-color: #138496;
+        }
+        .btn-primary:hover, .btn-secondary:hover {
+            opacity: 0.9;
+        }
+        .table {
+            margin-top: 20px;
+        }
+        th {
+            background-color: #004085;
+            color: #ffffff;
+        }
+        .form-group label {
+            color: #004085;
+            font-weight: bold;
+        }
+        .footer {
+            margin-top: 50px;
+            text-align: center;
+            padding: 20px;
+            background-color: #004085;
+            color: #ffffff;
+            border-radius: 8px;
+        }
+        .instructions {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg">
+        <a class="navbar-brand" href="#">Try and Show - Extracción de Datos PDF</a>
+    </nav>
+
+    <div class="container mt-5">
+        <h2>Datos Extraídos del PDF</h2>
+
+        <!-- Formulario para cargar el archivo PDF -->
+        <h3>1. Selecciona un archivo PDF</h3>
+        <p class="instructions">Sube un archivo PDF desde tu computadora para extraer los datos. Luego podrás filtrar los resultados según los campos específicos.</p>
+        <form action="/" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="pdf">Selecciona un archivo PDF:</label>
+                <input type="file" class="form-control-file" id="pdf" name="pdf" accept="application/pdf" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Cargar y Extraer Datos</button>
+        </form>
+        <hr>
+
+        <!-- Formulario de búsqueda -->
+        <h3>2. Filtra los Resultados</h3>
+        <p class="instructions">Ingresa uno o más criterios para filtrar los datos extraídos. Puedes buscar por nombre de localidad, distrito, provincia o departamento.</p>
+        <form method="get" action="/">
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="localidad">Nombre de la Localidad</label>
+                    <input type="text" class="form-control" id="localidad" name="localidad" placeholder="Ej. 'Palacio Municipal'">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="distrito">Distrito</label>
+                    <input type="text" class="form-control" id="distrito" name="distrito" placeholder="Ej. 'Barranca'">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="provincia">Provincia</label>
+                    <input type="text" class="form-control" id="provincia" name="provincia" placeholder="Ej. 'Lima'">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="departamento">Departamento</label>
+                    <input type="text" class="form-control" id="departamento" name="departamento" placeholder="Ej. 'Lima'">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-secondary">Buscar</button>
+        </form>
+        <hr>
+
+        <!-- Tabla de resultados -->
+        <h3>3. Resultados</h3>
+        <p class="instructions">Aquí se mostrarán los datos extraídos del PDF y filtrados según tus criterios.</p>
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Nombre de la Localidad</th>
+                    <th>Latitud</th>
+                    <th>Longitud</th>
+                    <th>Dirección</th>
+                    <th>Distrito</th>
+                    <th>Provincia</th>
+                    <th>Departamento</th>
+                    <th>Encargado</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in data %}
+                <tr>
+                    <td>{{ item['Nombre de la Localidad'] }}</td>
+                    <td>{{ item['Latitud'] }}</td>
+                    <td>{{ item['Longitud'] }}</td>
+                    <td>{{ item['Calle/Av. Pasaje, etc.'] }}</td>
+                    <td>{{ item['Distrito'] }}</td>
+                    <td>{{ item['Provincia'] }}</td>
+                    <td>{{ item['Departamento'] }}</td>
+                    <td>{{ item['Encargado'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>© 2024 Try and Show - Extracción de Datos PDF</p>
+    </div>
+</body>
+</html>
